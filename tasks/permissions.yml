@@ -3,7 +3,7 @@
       file: path=/srv/sites/{{ site_name }} owner=root group=git mode=0775 state=directory recurse=yes
 
     - name: Set files directory permissions
-      file: path=/srv/sites/{{ site_name }}/www/sites/default/files owner=root group=www-data mode=2775 state=directory
+      file: path=/srv/sites/{{ site_name }}/www/sites/default/files owner=root group=www-data state=directory recurse=yes 
 
     - name: Set sticky bit for all directories in site and execute for all
       shell: find /srv/sites/{{ site_name }} -type d -exec chmod +x,g+s {} \;
