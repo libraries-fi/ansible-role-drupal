@@ -1,6 +1,5 @@
----
-# file: testing/tasks/main.yml
-
-- include: deploy_drupal.yml
-
-
+    - include: database.yml tags=database
+    - include: drupal.yml tags=drupal
+    - include: local.yml tags=local
+    - include: permissions.yml tags=permissions
+    - include: apache.yml tags=apache 

@@ -1,4 +1,0 @@
-    - include: database.yml tags=database
-    - include: drupal.yml tags=drupal
-    - include: permissions.yml tags=permissions
-    - include: apache.yml tags=apache 
