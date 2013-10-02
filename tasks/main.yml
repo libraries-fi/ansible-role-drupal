@@ -1,0 +1,6 @@
+---
+# file: testing/tasks/main.yml
+
+- include: deploy_drupal.yml
+
+

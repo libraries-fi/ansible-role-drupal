@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+        ServerAdmin {{ server_admin_email }} 
+        ServerName {{ item }}
+        DocumentRoot /srv/sites/{{ item }}/
+        <Directory /srv/sites/{{ item }}/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+</VirtualHost>
+

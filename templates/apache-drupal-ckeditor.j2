@@ -1,0 +1,12 @@
+# TODO: use this for sites that have ckeditor (probably needs some customisation)
+<Directory /sites/{{ site_name }}/www/sites/all/modules/ckeditor/ckeditor/>
+AddType application/x-javascript .js
+AddType text/css .css
+AddType text/xml .xml
+</Directory>
+
+<Directory /sites/{{ site_name }}/www/sites/all/modules/ckeditor/ckfinder/userfiles/>
+<IfModule mod_php5.c>
+  php_value engine off
+</IfModule>
+</Directory>
