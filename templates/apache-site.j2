@@ -1,8 +1,8 @@
 <VirtualHost *:80>
         ServerAdmin {{ server_admin_email }} 
         ServerName {{ item }}
-        DocumentRoot /srv/sites/{{ item }}/
-        <Directory /srv/sites/{{ item }}/>
+        DocumentRoot {{ drupal_sites_dir }}/{{ item }}/
+        <Directory {{ drupal_sites_dir }}/{{ item }}/>
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny

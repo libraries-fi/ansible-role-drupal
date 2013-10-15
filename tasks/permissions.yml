@@ -1,11 +1,14 @@
 ---
+    - name: Create group for shared developer access
+      group: name={{ dev_group }}
+
     - name: Set main directory permissions
-      file: path=/srv/sites/{{ site_name }} owner=root group=git mode=0775 state=directory recurse=yes
+      file: path={{ drupal_sites_dir }}/{{ site_name }} owner=root group=git mode=0775 state=directory recurse=yes
 
     - name: Set files directory permissions
-      file: path=/srv/sites/{{ site_name }}/www/sites/default/files owner=root group=www-data state=directory recurse=yes 
+      file: path={{ drupal_sites_dir }}/{{ site_name }}/www/sites/default/files owner=root group=www-data state=directory recurse=yes 
 
     - name: Set sticky bit for all directories in site and execute for all
-      shell: find /srv/sites/{{ site_name }} -type d -exec chmod +x,g+s {} \;
+      shell: find {{ drupal_sites_dir }}/{{ site_name }} -type d -exec chmod +x,g+s {} \;
 
 

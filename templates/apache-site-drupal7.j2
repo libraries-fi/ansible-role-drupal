@@ -1,9 +1,9 @@
 <VirtualHost *:80>
 	ServerAdmin {{ server_admin_email }} 
         ServerName www.{{ site_name }}
-	DocumentRoot /srv/sites/{{ site_name }}/www/
+	DocumentRoot {{ drupal_sites_dir }}/{{ site_name }}/www/
 
-<Directory /srv/sites/{{ site_name }}/www/>
+<Directory {{ drupal_sites_dir }}/{{ site_name }}/www/>
 AllowOverride None
 Order allow,deny
 allow from all
@@ -114,7 +114,7 @@ DirectoryIndex index.php index.html index.htm
 </IfModule>
 </Directory>
 
-<Directory /srv/sites/{{ site_name }}/www/srv/sites/default/files/>
+<Directory {{ drupal_sites_dir }}/{{ site_name }}/www{{ drupal_sites_dir }}/default/files/>
 SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
 Options None
 Options +FollowSymLinks
