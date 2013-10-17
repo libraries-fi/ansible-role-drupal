@@ -1,11 +1,11 @@
 ---
     - name: Create MySQL databases # depends on python-mysqldb (currently installed in various-packages)
       mysql_db: name=kifi_emo collation=utf8_unicode_ci state=present
-
+      register: db_created
     - name: Setup users for MySQL databases
       mysql_user: name={{ db.name }} password={{ db.password }} priv={{ db.name }}.*:ALL state=present
 
-# TODO: run drush site-install -y --db-url=mysql://{{ db.user }}:{{ db.password }}@localhost/{{ db.name }} but figure out a way to check whether or not the DB is there first
-
-
+    - name: Install site with drush
+      shell: drush site-install -y -r {{ drupal_sites_dir }}/{{ site_name }}/www/ --db-url=mysql://{{ db.user }}:{{ db.password }}@localhost/{{ db.name }}
+      when: db_created.changed
 

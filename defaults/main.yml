@@ -2,3 +2,4 @@
 
 drupal_sites_dir: /srv/sites
 dev_group: git
+server_admin_email: admin@example.com

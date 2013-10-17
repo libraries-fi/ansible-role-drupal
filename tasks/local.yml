@@ -1,6 +1,6 @@
 ---
-    - name: Check out local repositories
+    - name: Check out custom repositories
       git: repo={{ kifi_git }}{{ item.name }} dest={{ drupal_sites_dir }}/{{site_name}}/www/{{item.dest}} version={{ item.version }}
-      with_items: kifi_locals
-      when: kifi_locals is defined
+      with_items: custom_repos
+      when: custom_repos is defined
 
