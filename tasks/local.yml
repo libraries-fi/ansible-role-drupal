@@ -1,6 +1,0 @@
----
-    - name: Check out custom repositories
-      git: repo={{ kifi_git }}{{ item.name }} dest={{ drupal_sites_dir }}/{{site_name}}/www/{{item.dest}} version={{ item.version }}
-      with_items: custom_repos
-      when: custom_repos is defined
-

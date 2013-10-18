@@ -1,23 +1,17 @@
 ---
     - name: Check out Drupal core from version control
-      git: repo={{ drupal_git }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }}
+      git: repo={{ drupal_git_base }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }}
 
     - name: Check out Drupal modules from version control
-      git: repo={{ drupal_git }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }}
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }}
       with_items: modules
       when: modules is defined
 
     - name: Check out Drupal themes from version control
-      git: repo={{ drupal_git }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }}
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }}
       with_items: themes
       when: themes is defined
 
-    - name: Check out local repositories
-      git: repo={{ kifi_git }}{{ item.name }} dest={{ drupal_sites_dir }}/{{site_name}}/www/{{item.dest}} version={{ item.version }}
-      with_items: custom_repos
-      when: custom_repos is defined
-
-    # TODO: consider just moving to ACLs for shared config to get rid of all the permission issues
     - name: Set git to ignore permission changes
       command: /usr/bin/git --git-dir={{ drupal_sites_dir }}/{{ site_name }}/www/.git --work-tree={{ drupal_sites_dir }}/{{ site_name }}/www config core.filemode false
 

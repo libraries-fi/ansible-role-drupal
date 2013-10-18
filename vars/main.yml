@@ -1,5 +1,4 @@
 ---
 
 
-drupal_git: http://git.drupal.org/project/
-kifi_git: ssh://testi.kirjastot.fi/srv/git/
+drupal_git_base: http://git.drupal.org/project/
