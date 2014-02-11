@@ -1,8 +1,0 @@
----
-    - name: Apache config for site
-      template: src=../templates/apache-site-drupal8.j2 dest=/etc/apache2/sites-available/{{site_name}} owner=root group=root mode=0644
-
-    - name: Enable site in apache config
-      file: src=/etc/apache2/sites-available/{{ site_name }} dest=/etc/apache2/sites-enabled/{{ site_name }} owner=root group=root state=link
-
-
