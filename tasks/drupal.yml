@@ -1,17 +1,16 @@
 ---
     - name: Check out Drupal core from version control
-      git: repo={{ drupal_git_base }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }}
+      git: repo={{ drupal_git_base }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }} depth=1
 
     - name: Check out Drupal modules from version control
-      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }}
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }} depth=1
       with_items: modules
       when: modules is defined
 
     - name: Check out Drupal themes from version control
-      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }}
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }} depth=1
       with_items: themes
       when: themes is defined
 
     - name: Set git to ignore permission changes
       command: /usr/bin/git --git-dir={{ drupal_sites_dir }}/{{ site_name }}/www/.git --work-tree={{ drupal_sites_dir }}/{{ site_name }}/www config core.filemode false
-
