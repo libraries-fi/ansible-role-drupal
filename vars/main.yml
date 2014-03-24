@@ -1,4 +1,5 @@
 ---
 
-
+install_profile: standard
+locale: fi
 drupal_git_base: http://git.drupal.org/project/
