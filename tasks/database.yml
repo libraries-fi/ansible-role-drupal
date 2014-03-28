@@ -7,6 +7,12 @@
     - name: Create MySQL databases # depends on python-mysqldb (currently installed in various-packages)
       mysql_db: name={{db.name}} collation=utf8_unicode_ci state=present
       register: db_created
+
+    - name: Create MySQL databases
+      mysql_db: name={{db.name}} state=present target={{db.dump}}
+      when: db.dump is defined and db_created.changed
+
+
     - name: Setup users for MySQL databases
       mysql_user: name={{ db.name }} password={{ db.password }} priv={{ db.name }}.*:ALL state=present
 
@@ -20,4 +26,4 @@
           --account-mail={{site_admin_email}}
           --account-name=admin
           --account-pass=ofhooghEk3
-      when: db_created.changed
+      when: db_created.changed and db.dump is not defined
