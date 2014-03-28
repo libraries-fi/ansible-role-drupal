@@ -1,4 +1,5 @@
 ---
+
     - name: Check out Drupal core from version control
       git: repo={{ drupal_git_base }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }} depth=1
 
@@ -12,5 +13,14 @@
       with_items: themes
       when: themes is defined
 
+    - name: Remove files if reinstalling
+      shell: rm -rf /{{drupal_sites_dir}}/{{site_name}}/www/sites/default/files/*
+      when: drupal_reinstall is defined
+
+
+
     - name: Set git to ignore permission changes
       command: /usr/bin/git --git-dir={{ drupal_sites_dir }}/{{ site_name }}/www/.git --work-tree={{ drupal_sites_dir }}/{{ site_name }}/www config core.filemode false
+
+    - name: Copy drushrc.php to sites/default
+      template: src=drushrc.php.j2 dest=/{{ drupal_sites_dir }}/{{ site_name }}/www/sites/default/drushrc.php owner=root group=root mode=0644

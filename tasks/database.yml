@@ -10,14 +10,3 @@
     - name: Setup users for MySQL databases
       mysql_user: name={{ db.name }} password={{ db.password }} priv={{ db.name }}.*:ALL state=present
 
-      # TODO: account details to vars and passwords from vault or something
-    - name: Install site with drush
-      shell: >
-          drush site-install {{install_profile}} --locale={{locale}} -y
-          -r {{ drupal_sites_dir }}/{{ site_name }}/www/
-          --db-url=mysql://{{ db.user }}:{{ db.password }}@localhost/{{ db.name }}
-          --site-name={{site_name}}
-          --account-mail={{site_admin_email}}
-          --account-name=admin
-          --account-pass=ofhooghEk3
-      when: db_created.changed

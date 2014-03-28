@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-	ServerAdmin {{ server_admin_email }} 
+	ServerAdmin {{ server_admin_email }}
         ServerName www.{{ site_name }}
 	DocumentRoot {{ drupal_sites_dir }}/{{ site_name }}/www/
 
@@ -88,7 +88,7 @@ DirectoryIndex index.php index.html index.htm
 
   # Pass all requests not referring directly to files in the filesystem to
   # index.php. Clean URLs are handled in drupal_environment_initialize().
-  RewriteCond %{REQUEST_URI} !=/server-status 
+  RewriteCond %{REQUEST_URI} !=/server-status
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !=/favicon.ico
@@ -121,7 +121,7 @@ DirectoryIndex index.php index.html index.htm
 </IfModule>
 </Directory>
 
-<Directory {{ drupal_sites_dir }}/{{ site_name }}/www{{ drupal_sites_dir }}/default/files/>
+<Directory {{ drupal_sites_dir }}/{{ site_name }}/www/sites/*/files/>
 SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
 Options None
 Options +FollowSymLinks
@@ -135,4 +135,3 @@ Options +FollowSymLinks
         ServerAlias *.{{ site_name }}
         RedirectPermanent / http://www.{{ site_name }}/
 </VirtualHost>
-
