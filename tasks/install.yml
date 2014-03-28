@@ -11,3 +11,11 @@
           --account-name=admin
           --account-pass=ofhooghEk3
       when: db_created.changed and db.dump is not defined
+
+    - name: Copy config in place
+      copy: src={{config}} dest={{drupal_sites_dir}}/{{site_name}}/config force=yes
+      when: db_created.changed and db.dump is defined
+
+    - name: Copy settings.php
+      template: src=settings.php.j2 dest={{drupal_sites_dir}}/{{site_name}}/www/sites/default/settings.php
+      when: db.dump is defined
