@@ -1,5 +1,5 @@
-    - include: database.yml tags=database
     - include: drupal.yml tags=drupal
     - include: custom.yml tags=custom
+    - include: database.yml tags=database
     - include: install.yml
     - include: permissions.yml tags=permissions
