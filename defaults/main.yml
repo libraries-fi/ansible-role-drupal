@@ -1,5 +1,6 @@
 ---
-
+drupal_config_directory: "{{ drupal_sites_dir }}/{{ site_name }}/config"
+drupal_multisite_directory: "{{drupal_sites_dir}}/{{site_name}}/www/sites/default"
 drupal_sites_dir: /srv/sites
 dev_group: git
 server_admin_email: admin@example.com

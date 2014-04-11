@@ -8,8 +8,8 @@
       mysql_db: name={{db.name}} collation=utf8_unicode_ci state=present
       register: db_created
 
-    - name: Create MySQL databases
-      mysql_db: name={{db.name}} state=present target={{db.dump}}
+    - name: Import database dump
+      mysql_db: name={{db.name}} state=import target={{db.dump}}
       when: db.dump is defined and db_created.changed
 
 

@@ -12,10 +12,15 @@
           --account-pass=ofhooghEk3
       when: db_created.changed and db.dump is not defined
 
+    - name: Copy files in place
+      synchronize: src={{site_files}}/ dest={{drupal_multisite_directory}}/files delete=yes
+      when: site_files is defined and db_created.changed and db.dump is defined
+
+
     - name: Copy config in place
-      copy: src={{config}} dest={{drupal_sites_dir}}/{{site_name}}/config force=yes
-      when: db_created.changed and db.dump is defined
+      copy: src={{config_files}}/ dest={{drupal_config_directory}} force=yes
+      when: config_files is defined and db_created.changed and db.dump is defined
 
     - name: Copy settings.php
-      template: src=settings.php.j2 dest={{drupal_sites_dir}}/{{site_name}}/www/sites/default/settings.php
+      template: src=settings.php.j2 dest={{drupal_multisite_directory}}/settings.php
       when: db.dump is defined

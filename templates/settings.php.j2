@@ -260,7 +260,12 @@ $config_directories = array();
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = 'DbSyvj9DbzoXlizJzCL7aupm-jgN7kUyQkSMODoc3_iREcXyuIzBJMtKfQb_izDgK0PIxjG1SA';
+{% if old_drupal8_alpha is defined %}
+$drupal_hash_salt = '{{drupal_hash_salt}}';
+{% else %}
+$settings['hash_salt'] = '{{drupal_hash_salt}}';
+{% endif %}
+
 
 /**
  * Access control for update.php script.
@@ -662,7 +667,7 @@ ini_set('session.cookie_lifetime', 2000000);
 # }
 $databases['default']['default'] = array (
   'database' => '{{db.name}}',
-  'username' => '{{db.user}},
+  'username' => '{{db.user}}',
   'password' => '{{db.password}}',
   'prefix' => '',
   'host' => 'localhost',
@@ -670,8 +675,11 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
-$settings['install_profile'] = 'standard';
-$config_directories['active'] = '{{ drupal_sites_dir }}/{{ site_name }}/config/active';
-$config_directories['staging'] = '{{ drupal_sites_dir }}/{{ site_name }}/config/staging';
-# Should be OK for cloning dev sites but not much else.
-$drupal_hash_salt = 'changeme-gOM3hHVAjz7CEk6Tyy8AoeS2fj6XDP1U2Hs';
+$settings['install_profile'] = '{{install_profile}}';
+{% if old_drupal8_alpha is defined %}
+$config_directories['active']['path'] = '{{ drupal_config_directory }}/active';
+$config_directories['staging']['path'] = '{{ drupal_config_directory }}/staging';
+{% else %}
+$config_directories['active'] = '{{ drupal_config_directory }}/active';
+$config_directories['staging'] = '{{ drupal_config_directory }}/staging';
+{% endif %}

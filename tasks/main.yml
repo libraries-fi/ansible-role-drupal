@@ -1,5 +1,9 @@
+---
+# set_fact
+# {{ hostvars[inventory_hostname]['ansible_' + which_interface]['ipv4']['address'] }}
+
     - include: drupal.yml tags=drupal
     - include: custom.yml tags=custom
     - include: database.yml tags=database
-    - include: install.yml
+    - include: install.yml tags=settings
     - include: permissions.yml tags=permissions
