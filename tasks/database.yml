@@ -8,8 +8,15 @@
       mysql_db: name={{db.name}} collation=utf8_unicode_ci state=present
       register: db_created
 
+    - name: Copy dump on VM
+      copy: >
+        src={{db.dump}}
+        dest=/tmp/{{site_name}}.sql
+      when: db.dump is defined
+
+
     - name: Import database dump
-      mysql_db: name={{db.name}} state=import target={{db.dump}}
+      mysql_db: name={{db.name}} state=import target=/tmp/{{site_name}}.sql
       when: db.dump is defined and db_created.changed
 
 

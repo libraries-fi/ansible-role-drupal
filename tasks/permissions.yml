@@ -13,3 +13,6 @@
 
     - name: Set sticky bit for all directories in site and execute for all
       shell: find {{ drupal_sites_dir }}/{{ site_name }} -type d -exec chmod +x,g+s {} \;
+
+    - name: Allow settings.php for www-data writing with initial install in mind
+      file: path='{{ drupal_sites_dir }}/{{ site_name }}/www/sites/default/settings.php' owner=www-data
