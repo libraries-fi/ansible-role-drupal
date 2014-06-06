@@ -22,13 +22,13 @@ Notes
 
 Simple example usage
 --------------------
-  - role: drupal
-    site_name: drupal
-    core: HEAD
-    db:
-      user: drupal_user
-      name: drupal_db
-      password: mypassword
+    - role: drupal
+      site_name: drupal
+      core: HEAD
+      db:
+        user: drupal_user
+        name: drupal_db
+        password: mypassword
 
 You probably want to put this in a site-specific role as a dependency and
 specify the variables there.
