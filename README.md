@@ -16,18 +16,18 @@ exact roles.
 Role Variables
 --------------
 
-drupal_config_directory: Absolute path for D8 config.
-drupal_multisite_directory: Absolute path for site files, commonly webroot/sites/default.
-drupal_sites_dir: Directory used for all the drupal (or other) sites on the host.
-dev_group: If you want a group (for dev access) to be set for the site, use this.
-server_admin_email: admin@example.com
-site_admin_email: admin@example.com
+        drupal_config_directory: Absolute path for D8 config.
+        drupal_multisite_directory: Absolute path for site files, commonly webroot/sites/default.
+        drupal_sites_dir: Directory used for all the drupal (or other) sites on the host.
+        dev_group: If you want a group (for dev access) to be set for the site, use this.
+        server_admin_email: admin@example.com
+        site_admin_email: admin@example.com
 
-install_profile: Which install profile to use
-locale: What to set as the locale.
-drupal_git_base: Prefix for drupal.org git repositories.
+        install_profile: Which install profile to use
+        locale: What to set as the locale.
+        drupal_git_base: Prefix for drupal.org git repositories.
 
-site_name: Name of the site.
+        site_name: Name of the site.
 
 Notes
 -----
