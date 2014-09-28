@@ -1,6 +1,13 @@
 ---
 # set_fact
 # {{ hostvars[inventory_hostname]['ansible_' + which_interface]['ipv4']['address'] }}
+    - name: Rewrite site_name if in test environment.
+      set_fact: drupal_site_name={{ site_name ~ local_test_environment|default('') }}
+      when: local_test_environment is defined
+
+    - name: Create tuple list of sites.
+      set_fact:
+        drupal_sites_list: "{{[drupal_config.default|dictsort]|union([drupal_config.other_sites|default({})|dictsort])}}"
 
     - include: drupal.yml tags=drupal
     - include: custom.yml tags=custom

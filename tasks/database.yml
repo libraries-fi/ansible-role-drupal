@@ -1,24 +1,32 @@
 ---
 
+
     - name: Delete MySQL databases # depends on python-mysqldb (currently installed in various-packages)
-      mysql_db: name={{db.name}} state=absent
+      mysql_db: name={{item.1.db.name|default(item.0|replace('.','_'))}} state=absent
+      with_items: drupal_sites_list
       when: drupal_reinstall is defined
 
+
     - name: Create MySQL databases # depends on python-mysqldb (currently installed in various-packages)
-      mysql_db: name={{db.name}} collation=utf8_unicode_ci state=present
+      mysql_db: name={{item.1.db.name|default(item.0|replace('.','_'))}} collation=utf8_unicode_ci state=present
+      # debug: msg={{item}}
+      with_items: drupal_sites_list
       register: db_created
 
     - name: Copy dump on VM
       copy: >
-        src={{db.dump}}
-        dest=/tmp/{{site_name}}.sql
-      when: db.dump is defined
+        src={{item.1.db.dump}}
+        dest=/tmp/{{item.0}}.sql
+      when: item.1.db.dump is defined
+      with_items: drupal_sites_list
 
 
     - name: Import database dump
-      mysql_db: name={{db.name}} state=import target=/tmp/{{site_name}}.sql
-      when: db.dump is defined and db_created.changed
+      mysql_db: name={{item.item.1.db.name}} state=import target=/tmp/{{item.item.0}}.sql
+      when: item.item.1.db.dump is defined and item.changed
+      with_items: db_created.results
 
 
     - name: Setup users for MySQL databases
-      mysql_user: name={{ db.name }} password={{ db.password }} priv={{ db.name }}.*:ALL state=present
+      mysql_user: name={{ item.1.db.user }} password={{ item.1.db.password }} priv={{item.1.db.name|default(item.0|replace('.','_'))}}.*:ALL state=present
+      with_items: drupal_sites_list

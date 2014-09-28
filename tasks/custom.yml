@@ -1,6 +1,14 @@
 ---
     - name: Check out custom repositories
-      git: repo={{ custom_git_base }}{{ item.name }} dest={{ drupal_sites_dir }}/{{site_name}}/www/{{item.dest}} version={{ item.version }}
+      git: repo={{ custom_git_base }}{{ item.name }} dest={{ drupal_sites_dir }}/{{drupal_site_name}}/www/{{item.dest}} version={{ item.version }}
       with_items: custom_repos
       when: custom_repos is defined
 
+    - name: Check out custom repositories (full url)
+      git:
+        repo={{ item.url }}
+        dest={{ drupal_sites_dir }}/{{drupal_site_name}}/www/{{item.dest}}
+        version={{ item.version }}
+        accept_hostkey=yes
+      with_items: custom_repos_full
+      when: custom_repos_full is defined

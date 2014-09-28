@@ -1,0 +1,5 @@
+{% if no_www_redirect is defined %}
+        ServerName {{ apache_vhost_site_name }}
+{% else %}
+        ServerName www.{{ apache_vhost_site_name }}
+{% endif %}

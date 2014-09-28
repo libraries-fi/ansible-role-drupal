@@ -1,7 +1,12 @@
 ---
-drupal_config_directory: "{{ drupal_sites_dir }}/{{ site_name }}/config"
-drupal_multisite_directory: "{{drupal_sites_dir}}/{{site_name}}/www/sites/default"
+drupal_git_base: http://git.drupal.org/project/
+drupal_git_repo: drupal.git
+drupal_config_directory: "{{ drupal_sites_dir }}/{{ drupal_site_name }}/config"
+drupal_multisite_directory: "{{drupal_sites_dir}}/{{drupal_site_name}}/www/sites"
 drupal_sites_dir: /srv/sites
+drupal_twig_debug: 'FALSE'
+drupal_git_repo_depth: 1
+drupal_class_loader: default
 dev_group: git
 server_admin_email: admin@example.com
 site_admin_email: admin@example.com

@@ -1,26 +1,50 @@
 ---
 
       # TODO: account details to vars and passwords from vault or something
-    - name: Install site with drush
+
+    - name: Remove files if reinstalling
+      shell: rm -rf /{{drupal_sites_dir}}/{{drupal_site_name}}/www/sites/default/files/*
+      when: drupal_reinstall is defined
+
+    - name: Create site directory.
+      file:
+        path={{drupal_multisite_directory}}/{{item.0}}
+        state=directory
+      with_items: drupal_sites_list
+
+    - name: Copy settings.php
+      # debug: msg={{item}}
+      template: src=settings.php.j2 dest={{drupal_multisite_directory}}/{{item.0}}/settings.php
+      with_items: drupal_sites_list
+
+    - name: Copy sites.php
+      template: src=sites.php.j2 dest={{drupal_multisite_directory}}/sites.php
+
+
+
+    - name: Install sites with drush
       shell: >
           drush site-install {{install_profile}} --locale={{locale}} -y
-          -r {{ drupal_sites_dir }}/{{ site_name }}/www/
-          --db-url=mysql://{{ db.user }}:{{ db.password }}@localhost/{{ db.name }}
-          --site-name={{site_name}}
+          -r {{ drupal_sites_dir }}/{{ drupal_site_name }}/www/
+          --db-url=mysql://{{ item.item.1.db.user }}:{{ item.item.1.db.password }}@localhost/{{item.db}}
+          --site-name={{item.item.0 ~ local_test_environment|default('')}}
           --account-mail={{site_admin_email}}
           --account-name=admin
           --account-pass=ofhooghEk3
-      when: db_created.changed and db.dump is not defined
+          --sites-subdir={{item.item.0}}
+      when: item.changed and item.item.1.db.dump is not defined
+      with_items:
+        # - drupal_config.default
+        # - drupal_config.other_sites
+        db_created.results
+
 
     - name: Copy files in place
-      synchronize: src={{site_files}}/ dest={{drupal_multisite_directory}}/files delete=yes
-      when: site_files is defined and db_created.changed and db.dump is defined
+      synchronize: src={{item.item.1.site_files}}/ dest={{drupal_multisite_directory}}/{{item.item.0}}/files delete=yes
+      when: item.item.1.site_files is defined and item.changed
+      with_items: db_created.results
 
 
     - name: Copy config in place
       copy: src={{config_files}}/ dest={{drupal_config_directory}} force=yes
       when: config_files is defined and db_created.changed and db.dump is defined
-
-    - name: Copy settings.php
-      template: src=settings.php.j2 dest={{drupal_multisite_directory}}/settings.php
-      when: db.dump is defined

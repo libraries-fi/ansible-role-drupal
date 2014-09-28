@@ -1,0 +1,7 @@
+<?php
+$sites = array();
+{% for item in drupal_sites_list %}
+{% if item|length() > 0 %}
+$sites['{{item.0.0 ~ local_test_environment|default("")}}'] = '{{item.0.0}}';
+{% endif %}
+{% endfor %}

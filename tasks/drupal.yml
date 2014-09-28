@@ -1,26 +1,20 @@
 ---
 
     - name: Check out Drupal core from version control
-      git: repo={{ drupal_git_base }}drupal.git dest={{ drupal_sites_dir }}/{{site_name}}/www version={{ core }} depth=1
+      git: repo={{ drupal_git_base }}{{ drupal_git_repo}} dest={{ drupal_sites_dir }}/{{drupal_site_name}}/www version={{ core }} depth={{drupal_git_repo_depth}}
 
     - name: Check out Drupal modules from version control
-      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }} depth=1
-      with_items: modules
-      when: modules is defined
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{drupal_site_name}}/www/sites/all/modules/{{item.name}} version={{ item.version }} depth={{drupal_git_repo_depth}}
+      with_items: drupal_config.modules
+      when: drupal_config.modules is defined
 
     - name: Check out Drupal themes from version control
-      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }} depth=1
+      git: repo={{ drupal_git_base }}{{ item.name }}.git dest={{ drupal_sites_dir }}/{{drupal_site_name}}/www/sites/all/themes/{{item.name}} version={{ item.version }} depth={{drupal_git_repo_depth}}
       with_items: themes
       when: themes is defined
 
-    - name: Remove files if reinstalling
-      shell: rm -rf /{{drupal_sites_dir}}/{{site_name}}/www/sites/default/files/*
-      when: drupal_reinstall is defined
-
-
-
     - name: Set git to ignore permission changes
-      command: /usr/bin/git --git-dir={{ drupal_sites_dir }}/{{ site_name }}/www/.git --work-tree={{ drupal_sites_dir }}/{{ site_name }}/www config core.filemode false
+      command: /usr/bin/git --git-dir={{ drupal_sites_dir }}/{{ drupal_site_name }}/www/.git --work-tree={{ drupal_sites_dir }}/{{ drupal_site_name }}/www config core.filemode false
 
     - name: Copy drushrc.php to sites/default
-      template: src=drushrc.php.j2 dest=/{{ drupal_sites_dir }}/{{ site_name }}/www/sites/default/drushrc.php owner=root group=root mode=0644
+      template: src=drushrc.php.j2 dest=/{{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/default/drushrc.php owner=root group=root mode=0644

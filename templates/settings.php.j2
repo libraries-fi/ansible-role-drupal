@@ -310,7 +310,7 @@ $settings['update_free_access'] = FALSE;
  *
  * Not recommended in production environments (Default: NULL).
  */
-# $settings['twig_auto_reload'] = TRUE;
+$settings['twig_auto_reload'] = {{drupal_twig_debug}};
 
 /**
  * Twig cache:
@@ -418,7 +418,7 @@ $settings['update_free_access'] = FALSE;
  *   $settings['class_loader'] = 'apc';
  *   $settings['class_loader'] = 'default';
  */
-# $settings['class_loader'] = 'apc';
+$settings['class_loader'] = '{{drupal_class_loader}}';
 
 /**
  * Authorized file system operations:
@@ -666,9 +666,9 @@ ini_set('session.cookie_lifetime', 2000000);
 #   include DRUPAL_ROOT . '/' . $conf_path . '/settings.local.php';
 # }
 $databases['default']['default'] = array (
-  'database' => '{{db.name}}',
-  'username' => '{{db.user}}',
-  'password' => '{{db.password}}',
+  'database' => '{{item.1.db.name|default(item.0|replace('.','_'))}}',
+  'username' => '{{item.1.db.user}}',
+  'password' => '{{item.1.db.password}}',
   'prefix' => '',
   'host' => 'localhost',
   'port' => '',
@@ -677,9 +677,9 @@ $databases['default']['default'] = array (
 );
 $settings['install_profile'] = '{{install_profile}}';
 {% if old_drupal8_alpha is defined %}
-$config_directories['active']['path'] = '{{ drupal_config_directory }}/active';
-$config_directories['staging']['path'] = '{{ drupal_config_directory }}/staging';
+$config_directories['active']['path'] = '{{ drupal_config_directory }}/{{item.0}}/active';
+$config_directories['staging']['path'] = '{{ drupal_config_directory }}/{{item.0}}/staging';
 {% else %}
-$config_directories['active'] = '{{ drupal_config_directory }}/active';
-$config_directories['staging'] = '{{ drupal_config_directory }}/staging';
+$config_directories['active'] = '{{ drupal_config_directory }}/{{item.0}}/active';
+$config_directories['staging'] = '{{ drupal_config_directory }}/{{item.0}}/staging';
 {% endif %}

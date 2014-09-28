@@ -1,9 +1,23 @@
 <VirtualHost *:80>
 	ServerAdmin {{ server_admin_email }}
-        ServerName www.{{ site_name }}
-	DocumentRoot {{ drupal_sites_dir }}/{{ site_name }}/www/
+{% include 'apache_servername.j2' %}
+{% if apache_vhost_other_sites is defined %}
+{%    for site in apache_vhost_other_sites %}
+{% if no_www_redirect is not defined %}
+{% set site = "www." ~ site %}
+{% endif %}
+{% if local_test_environment is defined %}
+{% set site = site ~ ".local" %}
+{% endif %}
+{% if loop.first %}
+        ServerAlias {{ site }}{% else %} {{site}}{% endif %}
+{%    endfor %}
+{% endif %}
 
-<Directory {{ drupal_sites_dir }}/{{ site_name }}/www/>
+	DocumentRoot {{ drupal_sites_dir }}/{{ apache_vhost_site_name }}/www/
+
+
+<Directory {{ drupal_sites_dir }}/{{ apache_vhost_site_name }}/www/>
 AllowOverride None
 Order allow,deny
 allow from all
@@ -121,7 +135,7 @@ DirectoryIndex index.php index.html index.htm
 </IfModule>
 </Directory>
 
-<Directory {{ drupal_sites_dir }}/{{ site_name }}/www/sites/*/files/>
+<Directory {{ drupal_sites_dir }}/{{ apache_vhost_site_name }}/www/sites/*/files/>
 SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
 Options None
 Options +FollowSymLinks
@@ -130,8 +144,24 @@ Options +FollowSymLinks
 
 #Permanently redirect root and all non-www subdomains.
 #Must be after main definition to not loop.
+{% if no_www_redirect is not defined %}
+
 <VirtualHost *:80>
-        ServerName {{ site_name }}
-        ServerAlias *.{{ site_name }}
-        RedirectPermanent / http://www.{{ site_name }}/
+        ServerName {{ apache_vhost_site_name }}
+        ServerAlias *.{{ apache_vhost_site_name }}
+        RedirectPermanent / http://www.{{ apache_vhost_site_name }}/
 </VirtualHost>
+
+{% if apache_vhost_other_sites is defined %}
+{%    for site in apache_vhost_other_sites %}
+{% if local_test_environment is defined %}
+{% set site = site ~ ".local" %}
+{% endif %}
+<VirtualHost *:80>
+        ServerName {{ site }}
+        ServerAlias *.{{ site }}
+        RedirectPermanent / http://www.{{ site }}/
+</VirtualHost>
+{%    endfor %}
+{% endif %}
+{% endif %}
