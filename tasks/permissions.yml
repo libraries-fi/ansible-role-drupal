@@ -15,5 +15,5 @@
       shell: find {{ drupal_sites_dir }}/{{ drupal_site_name }} -type d -exec chmod +x,g+s {} \;
 
 
-    - name: Allow settings.php for www-data writing with initial install in mind
-      file: path='{{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/{{site_name}}/settings.php' owner=www-data
+    # - name: Allow settings.php for www-data writing with initial install in mind
+      # file: path='{{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/default/settings.php' owner=www-data

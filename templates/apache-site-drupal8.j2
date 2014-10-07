@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:{{apache_vhost_port}}>
 	ServerAdmin {{ server_admin_email }}
 {% include 'apache_servername.j2' %}
 {% if apache_vhost_other_sites is defined %}
@@ -146,7 +146,7 @@ Options +FollowSymLinks
 #Must be after main definition to not loop.
 {% if no_www_redirect is not defined %}
 
-<VirtualHost *:80>
+<VirtualHost *:{{apache_vhost_port}}>
         ServerName {{ apache_vhost_site_name }}
         ServerAlias *.{{ apache_vhost_site_name }}
         RedirectPermanent / http://www.{{ apache_vhost_site_name }}/
@@ -157,7 +157,7 @@ Options +FollowSymLinks
 {% if local_test_environment is defined %}
 {% set site = site ~ ".local" %}
 {% endif %}
-<VirtualHost *:80>
+<VirtualHost *:{{apache_vhost_port}}>
         ServerName {{ site }}
         ServerAlias *.{{ site }}
         RedirectPermanent / http://www.{{ site }}/

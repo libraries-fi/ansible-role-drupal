@@ -8,13 +8,13 @@
 
     - name: Create site directory.
       file:
-        path={{drupal_multisite_directory}}/{{item.0}}
+        path={{drupal_multisite_directory}}/{{item.1.site_dir|default(item.0)}}
         state=directory
       with_items: drupal_sites_list
 
     - name: Copy settings.php
       # debug: msg={{item}}
-      template: src=settings.php.j2 dest={{drupal_multisite_directory}}/{{item.0}}/settings.php
+      template: src=settings.php.j2 dest={{drupal_multisite_directory}}/{{item.1.site_dir|default(item.0)}}/settings.php
       with_items: drupal_sites_list
 
     - name: Copy sites.php
@@ -31,7 +31,7 @@
           --account-mail={{site_admin_email}}
           --account-name=admin
           --account-pass=ofhooghEk3
-          --sites-subdir={{item.item.0}}
+          --sites-subdir={{item.item.1.site_dir|default(item.item.0)}}
       when: item.changed and item.item.1.db.dump is not defined
       with_items:
         # - drupal_config.default
@@ -40,7 +40,7 @@
 
 
     - name: Copy files in place
-      synchronize: src={{item.item.1.site_files}}/ dest={{drupal_multisite_directory}}/{{item.item.0}}/files delete=yes
+      synchronize: src={{item.item.1.site_files}}/ dest={{drupal_multisite_directory}}/{{item.item.1.site_dir|default(item.item.0)}}/files delete=yes
       when: item.item.1.site_files is defined and item.changed
       with_items: db_created.results
 
