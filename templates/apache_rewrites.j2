@@ -1,0 +1,9 @@
+{% if rewrites is defined %}
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+{% for rewrite in rewrites %}
+{{rewrite}}
+{% endfor %}
+</IfModule>
+{% endif %}

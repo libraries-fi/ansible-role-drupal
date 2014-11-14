@@ -3,7 +3,13 @@
       group: name={{ dev_group }}
 
     - name: Set main directory permissions
-      file: path={{ drupal_sites_dir }}/{{ drupal_site_name }} owner=root group={{ dev_group }} mode=0775 state=directory recurse=yes
+      file:
+        path: "{{ drupal_sites_dir }}/{{ drupal_site_name }}"
+        owner: root
+        group: "{{ dev_group }}"
+        mode: u+rwX,g+rwX,o+rX
+        state: directory
+        recurse: yes
 
     - name: Set files directory permissions
       file: path={{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/default/files owner=root group=www-data state=directory recurse=yes
@@ -12,8 +18,7 @@
       shell: chmod -R g+w {{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/default/files
 
     - name: Set sticky bit for all directories in site and execute for all
-      shell: find {{ drupal_sites_dir }}/{{ drupal_site_name }} -type d -exec chmod +x,g+s {} \;
-
+      shell: find {{ drupal_sites_dir }}/{{ drupal_site_name }} -type d -exec chmod g+s {} \;
 
     # - name: Allow settings.php for www-data writing with initial install in mind
       # file: path='{{ drupal_sites_dir }}/{{ drupal_site_name }}/www/sites/default/settings.php' owner=www-data

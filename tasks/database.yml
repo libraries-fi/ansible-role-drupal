@@ -8,7 +8,7 @@
 
 
     - name: Create MySQL databases # depends on python-mysqldb (currently installed in various-packages)
-      mysql_db: name={{item.1.db.name|default(item.0|replace('.','_'))}} collation=utf8_unicode_ci state=present
+      mysql_db: name={{item.1.db.name|default(item.0|replace('.','_'))}} collation={{ drupal_database_collation }} state=present
       # debug: msg={{item}}
       with_items: drupal_sites_list
       register: db_created

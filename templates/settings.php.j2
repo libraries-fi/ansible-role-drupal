@@ -373,7 +373,7 @@ $settings['twig_auto_reload'] = {{drupal_twig_debug}};
  * Be aware, however, that it is likely that this would allow IP
  * address spoofing unless more advanced precautions are taken.
  */
-{% if drupal_reverse_proxy_addresses %}
+{% if drupal_reverse_proxy_addresses is defined %}
 $settings['reverse_proxy'] = TRUE;
 
 /**
@@ -383,8 +383,9 @@ $settings['reverse_proxy'] = TRUE;
 $settings['reverse_proxy_addresses'] = array(
 {% for address in drupal_reverse_proxy_addresses %}'{{address}}',
 {% endfor %}
-{% endif %}
 );
+{% endif %}
+
 
 /**
  * Set this value if your proxy server sends the client IP in a header

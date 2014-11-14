@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 <VirtualHost *:{{apache_vhost_port}}>
 	ServerAdmin {{ server_admin_email }}
 {% include 'apache_servername.j2' %}
@@ -16,6 +17,8 @@
 
 	DocumentRoot {{ drupal_sites_dir }}/{{ apache_vhost_site_name }}/www/
 
+
+{% include 'apache_rewrites.j2' %}
 
 <Directory {{ drupal_sites_dir }}/{{ apache_vhost_site_name }}/www/>
 AllowOverride None
