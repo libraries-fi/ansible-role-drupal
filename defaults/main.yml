@@ -10,3 +10,4 @@ drupal_class_loader: default
 dev_group: git
 server_admin_email: admin@example.com
 site_admin_email: admin@example.com
+drupal_database_collation: utf8_unicode_ci
