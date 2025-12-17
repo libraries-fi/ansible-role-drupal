@@ -8,8 +8,22 @@
       set_fact:
         drupal_sites_list: "{{[drupal_config.default|dictsort]|union([drupal_config.other_sites|default({})|dictsort])}}"
 
-    - include: drupal.yml tags=drupal
-    - include: custom.yml tags=custom
-    - include: database.yml tags=database
-    - include: install.yml tags=settings
-    - include: permissions.yml tags=permissions
+    - name: Setup Drupal
+      include_tasks: drupal.yml
+      tags: drupal
+
+    - name: Clone custom Drupal repositories
+      include_tasks: custom.yml
+      tags: custom
+
+    - name: Create MySQL databases, copy and import dump to VM
+      include_tasks: database.yml
+      tags: database
+
+    - name: Install sites with drush, copy all settings and config into place
+      include_tasks: install.yml
+      tags: settings
+
+    - name: Setup file permissions for installed Drupal
+      include_tasks: permissions.yml
+      tags: permissions
