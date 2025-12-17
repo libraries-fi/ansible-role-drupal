@@ -16,11 +16,11 @@
       include_tasks: custom.yml
       tags: custom
 
-    - name: Create MySQL databases and copy and import to VM
+    - name: Create MySQL databases, copy and import dump to VM
       include_tasks: database.yml
       tags: database
 
-    - name: Install sites with drush and copy all settings and config into place
+    - name: Install sites with drush, copy all settings and config into place
       include_tasks: install.yml
       tags: settings
 
