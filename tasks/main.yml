@@ -12,7 +12,7 @@
       include_tasks: drupal.yml
       tags: drupal
 
-    - name: Clone custom drupal repositories
+    - name: Clone custom Drupal repositories
       include_tasks: custom.yml
       tags: custom
 
@@ -24,6 +24,6 @@
       include_tasks: install.yml
       tags: settings
 
-    - name: Setup permissions for development
+    - name: Setup file permissions for installed Drupal
       include_tasks: permissions.yml
       tags: permissions
